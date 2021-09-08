@@ -14,4 +14,20 @@ p{
     margin: 0;
     margin-bottom: 10px;
 }
+.over_one{
+    overflow:hidden; 
+    text-overflow:ellipsis;
+    display:-webkit-box; 
+    -webkit-box-orient:vertical;
+    -webkit-line-clamp:1; 
+    word-break: break-all;
+}
 
+.over_more{
+    overflow:hidden; 
+    text-overflow:ellipsis;
+    display:-webkit-box; 
+    -webkit-box-orient:vertical;
+    -webkit-line-clamp:2; 
+    word-break: break-all;
+}

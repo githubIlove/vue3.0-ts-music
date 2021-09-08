@@ -41,8 +41,12 @@ $background-color-black:#222;
 // $font-color-shallowdb : #dbdbdb;
  
 //字体定义规范
-$font_little_s:.512rem;
+$font_little_s:.512rem; //12
 $font_little:.597rem;
 $font_medium_s:.682rem;
 $font_medium:.768rem;
-$font_large_s:.853rem;
+$font_large_s:.853rem;//20
+
+$font_large:1.024rem; //24
+$font_big_s:1.194rem; //28
+$font_big:1.365rem;//32

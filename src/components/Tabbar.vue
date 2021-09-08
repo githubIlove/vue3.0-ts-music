@@ -1,5 +1,6 @@
 <template>
     <div class="tabbar">
+        <PlayMusic></PlayMusic>
         <footer class="footer">
             <div v-for="tab in tabbars" :key="tab.id" @click="changeTab(tab)">
                 <i :class="active == tab.id?tab.active:tab.inactive " class="iconfont"></i>
@@ -25,11 +26,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent,ref,reactive } from 'vue'
+import { defineComponent,ref,reactive, watch,computed } from 'vue'
 import { useRouter } from "vue-router";
 import { changeTabbar } from "../typings/type"
-export default defineComponent({
+import { useStore } from 'vuex'
 
+import PlayMusic from './PlayMusic.vue'
+export default defineComponent({
+    components:{
+        PlayMusic
+    },
     setup() {
         const tabbars = [
             {
@@ -64,10 +70,25 @@ export default defineComponent({
 
 
         var active = ref<number>(0);
-        const router = useRouter()
         const state = reactive({
             
         })
+        
+
+        
+        const router = useRouter()
+        const store = useStore()
+        var tabShow = ref<boolean>(store.state.tabShow ) 
+
+        watch(tabShow, (newVal,oldVal)=>{
+            console.log(newVal,oldVal)
+        })
+
+        // const nextAge = computed(() => {
+        //     return tabShow
+        // })
+        // console.log(nextAge)
+
 
         function changeTab(res: changeTabbar): void {
             res.path == 'index' ? router.push(`/`) : router.push(`/${res.path}`) ;
@@ -78,7 +99,8 @@ export default defineComponent({
         return { 
             active,
             tabbars,
-            changeTab
+            changeTab,
+            tabShow
         };
     },
 })

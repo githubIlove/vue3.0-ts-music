@@ -1,38 +1,67 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
-import Home from '../views/Home.vue'
 import { clearPending } from "@/api/axios"
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/',
     name: 'Index',
-    component: () => import('../views/Index.vue')
+    component: () => import('../views/Index.vue'),
+    meta:{
+      playStrip:true,
+      tabShow:true
+    }
   },
-  {
-    path: '/home',
-    name: 'Home',
-    component: Home
-  },
-  {
-    path: '/about',
-    name: 'About',
-    component: () => import('../views/About.vue')
-  },
-
   {
     path: '/attention',
     name: 'Attention',
-    component: () => import('../views/Attention.vue')
+    component: () => import('../views/Attention.vue'),
+    meta:{
+      playStrip:true,
+      tabShow:true
+    }
   },
   {
     path: '/broadcasting',
     name: 'Broadcasting',
-    component: () => import('../views/Broadcasting.vue')
+    component: () => import('../views/Broadcasting.vue'),
+    meta:{
+      playStrip:true,
+      tabShow:true
+    }
   },
   {
     path: '/personal',
     name: 'Personal',
-    component: () => import('../views/Personal.vue')
+    component: () => import('../views/Personal.vue'),
+    meta:{
+      playStrip:true,
+      tabShow:true
+    }
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: () => import('../views/Login.vue'),
+    meta:{
+      playStrip:false
+    }
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: () => import('../views/Register.vue'),
+    meta:{
+      playStrip:false
+    }
+  },
+
+  {
+    path: '/songlist/:id',
+    name: 'SongList',
+    component: () => import('../views/SongList.vue'),
+    meta:{
+      playStrip:false
+    }
   },
 
 ]

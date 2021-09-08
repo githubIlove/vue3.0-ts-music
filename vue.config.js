@@ -1,5 +1,6 @@
 module.exports = {
-    publicPath: './',
+    // publicPath: './',
+    publicPath: process.env.NODE_ENV === "production" ? "./" : "/",   //解决动态路由传参时  因为history路由模式 导致的路径错误问题
     assetsDir: 'static',
     productionSourceMap: false,
     devServer: {

@@ -7,4 +7,13 @@ interface changeTabbar {
 	inactive: string;
 }
 
-export { changeTabbar};
+// playMusic中的reactive、
+interface playMusicData{
+	song_url:string,
+	play_state:boolean
+}
+
+export {
+	changeTabbar,
+	playMusicData
+}

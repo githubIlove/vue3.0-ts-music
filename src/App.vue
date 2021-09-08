@@ -1,5 +1,11 @@
 <template>
-    <div id="nav">
+    <div id="app">
+        <!-- 
+            动态显示底部状态
+            1. meta: { navShow: true, cname: '一级页面' }, 在路由中添加
+            2.vuex
+            3.router-view
+         -->
         <tabbar></tabbar>
         <router-view/>
     </div>
@@ -7,9 +13,12 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import tabbar from './components/Tabbar.vue'
+
+
 export default defineComponent({
     components:{
-        tabbar
+        tabbar,
+        
     },
     setup() {
         
@@ -19,13 +28,11 @@ export default defineComponent({
 
 
 <style lang="scss">
-// #app {
-//     font-family: Avenir, Helvetica, Arial, sans-serif;
-//     -webkit-font-smoothing: antialiased;
-//     -moz-osx-font-smoothing: grayscale;
-//     text-align: center;
-//     color: #2c3e50;
-// }
+
+#app {
+    width: 100%;
+    height: 100%;
+}
 
 // #nav {
 //     padding: 30px;
