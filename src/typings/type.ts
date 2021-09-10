@@ -13,7 +13,21 @@ interface playMusicData{
 	play_state:boolean
 }
 
+
+
+// 播放音乐时  需要设置的缓存
+
+interface playSongLocal{
+	id:string,
+	name:string,
+	songUrl:string,
+	picture:string,
+	singer:string,
+	currentTime:number | string,
+}
+
 export {
 	changeTabbar,
-	playMusicData
+	playMusicData,
+	playSongLocal,
 }

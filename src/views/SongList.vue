@@ -11,11 +11,11 @@
     </header>
     <div class="music">
       <ul class="box">
-        <li class="list" v-for="(item,i) in state.listDel.tracks" :key="item.id">
+        <li class="list" v-for="(item,i) in state.listDel.tracks" :key="item.id" @click="playBefore(item)">
           <div class="number">{{i+1}}</div>
           <div class="song_content">
             <div class="name over_one">{{item.name}}</div>
-            <div class="singer over_one">{{item.ar[0].name}}</div>
+            <div class="singer over_one">{{item.ar[0].name}}-{{item.al.name}}</div>
           </div>
           <div class="operation"></div>
         </li>
@@ -25,17 +25,19 @@
 </template>
 
 <script lang="ts">
-import { defineComponent,reactive } from 'vue'
+import { defineComponent,reactive ,provide} from 'vue'
 
 import { SongInfo } from '../api/interface/songList'
 import { timeFilter } from '../utils/regular'
 import { useRoute  } from "vue-router";
 
+import { canPlay  } from "../utils/public";
+
+
 export default defineComponent({
     setup(props,ctx) {
       const state = reactive({
         listDel: {},
-
       })
       const route = useRoute ()
       const songListId = route.params.id
@@ -49,8 +51,8 @@ export default defineComponent({
         }
       }
       songListDel()
-      async function playBefore(){
-
+      function playBefore(val:any){
+        canPlay(val)
       }
 
       // const handleLogin = async () => {
@@ -75,7 +77,7 @@ export default defineComponent({
     display: flex;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(to right, #fa709a 0%, #fee140 100%);
+    background: linear-gradient(to right, #a1c4fd 0%, #c2e9fb 100%);
     .content{
       width: 90%;
       height: 5rem;
@@ -104,7 +106,7 @@ export default defineComponent({
     }
   }
   .music{
-    padding: .426rem .64rem 3.83rem .64rem;
+    padding: .426rem .64rem 1.7rem .64rem;
     // @include background_color($background-color-white);
     background: #d7e2cb;
     .list{
@@ -137,19 +139,6 @@ export default defineComponent({
       }
     }
   }
-//   $font_little_s:.512rem; //12
-// $font_little:.597rem;
-// $font_medium_s:.682rem;
-// $font_medium:.768rem;
-// $font_large_s:.853rem;//20
-
-  // <li class="list" v-for="(item,i) in state.listDel.tracks" :key="item.id">
-  //         <div class="number">{{i+1}}</div>
-  //         <div class="song_content">
-  //           <div class="name">{{item.name}}</div>
-  //           <div class="singer">{{item.al.name}}</div>
-  //         </div>
-  //         <div class="operation"></div>
-  //       </li>
 }
+
 </style>

@@ -1,16 +1,24 @@
 @font-face {
   font-family: "iconfont"; /* Project id 2789772 */
-  src: url('//at.alicdn.com/t/font_2789772_bs1u2o2p8d.woff2?t=1630907161133') format('woff2'),
-       url('//at.alicdn.com/t/font_2789772_bs1u2o2p8d.woff?t=1630907161133') format('woff'),
-       url('//at.alicdn.com/t/font_2789772_bs1u2o2p8d.ttf?t=1630907161133') format('truetype');
+  src: url('//at.alicdn.com/t/font_2789772_6k6lf1lsag.woff2?t=1631267239704') format('woff2'),
+       url('//at.alicdn.com/t/font_2789772_6k6lf1lsag.woff?t=1631267239704') format('woff'),
+       url('//at.alicdn.com/t/font_2789772_6k6lf1lsag.ttf?t=1631267239704') format('truetype');
 }
 
 .iconfont {
   font-family: "iconfont" !important;
-  font-size: 0.68rem;
+  font-size: .68rem;
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-bofang1:before {
+  content: "\e61c";
+}
+
+.icon-zanting_huaban:before {
+  content: "\e637";
 }
 
 .icon-bofangliebiao:before {

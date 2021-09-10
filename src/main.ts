@@ -33,7 +33,7 @@ router.beforeEach((to, from, next) => {
     if(to.meta.tabShow){
         store.commit('tabShowFun', true)
     }else{
-        store.commit('tabShowFun', true)
+        store.commit('tabShowFun', false)
     }
     if(to.meta.playStrip){
         store.commit('playStripFun', true)

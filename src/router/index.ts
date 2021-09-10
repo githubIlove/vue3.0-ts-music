@@ -60,7 +60,7 @@ const routes: Array<RouteRecordRaw> = [
     name: 'SongList',
     component: () => import('../views/SongList.vue'),
     meta:{
-      playStrip:false
+      playStrip:true
     }
   },
 
@@ -76,5 +76,9 @@ router.beforeEach((to, from, next) => {
   clearPending()
   next()
 })
+// 动态显示底部状态
+// 1. meta: { navShow: true, cname: '一级页面' }, 在路由中添加
+// 2.vuex
+// 3.router-view
 
 export default router

@@ -1,32 +1,17 @@
 <template>
     <div class="tabbar">
-        <PlayMusic></PlayMusic>
-        <footer class="footer">
+        <PlayMusic v-if="state.playStripStatus" :show="state.tabShowStatus"></PlayMusic>
+        <footer class="footer" v-if="state.tabShowStatus">
             <div v-for="tab in tabbars" :key="tab.id" @click="changeTab(tab)">
                 <i :class="active == tab.id?tab.active:tab.inactive " class="iconfont"></i>
                 <div>{{tab.name}}</div>
             </div>
         </footer>
-
-        <!-- <van-tabbar v-model="active" @change="onChange">
-            <van-tabbar-item name="index" icon="home-o">发现</van-tabbar-item>
-            <van-tabbar-item>
-                <span>发现</span>
-                <template #icon_index="props">
-                    <img :src="props.active ? icon.active : icon.inactive" />
-                </template>
-            </van-tabbar-item>
-
-
-            <van-tabbar-item name='broadcasting' icon="search">电台</van-tabbar-item>
-            <van-tabbar-item name="attention" icon="friends-o">关注</van-tabbar-item>
-            <van-tabbar-item name="personal" icon="setting-o">我的</van-tabbar-item>
-        </van-tabbar> -->
     </div>
 </template>
 
 <script lang="ts">
-import { defineComponent,ref,reactive, watch,computed } from 'vue'
+import { defineComponent,ref,reactive, watch,computed ,watchEffect} from 'vue'
 import { useRouter } from "vue-router";
 import { changeTabbar } from "../typings/type"
 import { useStore } from 'vuex'
@@ -71,36 +56,44 @@ export default defineComponent({
 
         var active = ref<number>(0);
         const state = reactive({
-            
+            playStripStatus:true,
+            tabShowStatus:true
         })
-        
-
-        
         const router = useRouter()
         const store = useStore()
-        var tabShow = ref<boolean>(store.state.tabShow ) 
 
-        watch(tabShow, (newVal,oldVal)=>{
-            console.log(newVal,oldVal)
+        var tabShow = computed(():boolean => {
+            return store.state.tabShow
+        })
+        var playStrip = computed(():boolean => {
+            return store.state.playStrip
         })
 
-        // const nextAge = computed(() => {
-        //     return tabShow
-        // })
-        // console.log(nextAge)
-
-
+        watch(
+            [
+                playStrip,
+                tabShow,
+            ],
+            ([newplayStrip,newtabShow])=>{
+                state.playStripStatus = newplayStrip
+                state.tabShowStatus = newtabShow
+            },
+            {
+                immediate: true
+            }
+        )
+      
         function changeTab(res: changeTabbar): void {
             res.path == 'index' ? router.push(`/`) : router.push(`/${res.path}`) ;
             active.value =  res.id
         }
-
             
         return { 
+            state,
             active,
             tabbars,
             changeTab,
-            tabShow
+            tabShow,
         };
     },
 })
@@ -127,4 +120,5 @@ export default defineComponent({
         text-align: center;
     }
 }
+
 </style>

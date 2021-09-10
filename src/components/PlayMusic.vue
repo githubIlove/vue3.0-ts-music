@@ -1,55 +1,116 @@
 <template>
-    <div class="play-music">
+    <div class="play-music" :class="sinkBottom?'un_sink':'sink'">
         <div class="content">
             <div class="left">
                 <div class="music-picture">
-                    <img src="../assets/image/timg.jpg" alt="">
+                    <img :src="state.picture" alt="">
                 </div>
                 <div class="music-name over_one">
-                    <span class="singer">周杰伦</span>
+                    <span class="singer">{{state.singer}}</span>
                     &nbsp;-&nbsp;
-                    <span class="song-title">七里香</span>
+                    <span class="song-title">{{state.name}}</span>
                 </div>
             </div>
             <div class="right">
                 <div class="play-pause">
-                    <i :class="!state.playState?'icon-bofang':'icon-zanting'" class="iconfont " @click="playPrepare"></i>
+                    <!-- <div class="circle-bar-left"></div>
+                    <div class="circle-bar-right"></div>
+                    <div class="mask">
+                        <span class="percent"></span>
+                    </div> -->
+                    <i :class="!state.playState?'icon-bofang1':'icon-zanting_huaban'" class="iconfont " @click="playPrepare"></i>
                 </div>
                 <div class="stay-list">
                     <i class="iconfont icon-bofangliebiao"></i>
                 </div>
             </div>
         </div>
-
-        
     </div>
 </template>
 
 <script lang="ts">
-import { defineComponent,ref,reactive, nextTick,toRefs ,effect,onMounted} from 'vue'
+import { defineComponent,ref,reactive, watch,computed} from 'vue'
 
 import { Song } from '../api/interface/playMusic'
 import { Toast } from 'vant'
-
+import { useStore } from 'vuex'
+import { canPlay  } from "../utils/public";
+import { setStroage,getStroage } from '../utils/regular'
 // import {playMusicData} from '../typings/type'
 
 export default defineComponent({
-    setup() {
+    props:{
+        show:Boolean
+    },
+    setup(props,ctx) {
         const state = reactive({
-            songUrl : '',
+            id:'',
+            name:'',
+            songUrl: '',
+            picture:'',
+            singer:'',
+            currentTime:0,
             playState:false,
-            audio:new Audio()
+            audio:new Audio(),
+            SongUndefined:true,//当前播放条是否有音乐
         })
+
+        var songCache = getStroage('song_info')
+        
+        if(songCache){
+            let songCacheJson = JSON.parse(getStroage('song_info'))
+            state.id = songCacheJson.id
+            state.name = songCacheJson.name
+            state.picture = songCacheJson.picture
+            state.singer = songCacheJson.singer
+            state.audio.currentTime = state.currentTime = songCacheJson.currentTime
+            state.audio.src = state.songUrl = songCacheJson.songUrl
+            state.SongUndefined = false
+        }else{
+            state.SongUndefined = false
+        }
+
+        const store = useStore()
+
+        var sinkBottom = computed(():boolean => {
+            return props.show
+        })    
+
+        var changeSong = computed(():boolean => {
+            return store.state.changeSong
+        }) 
+        
+        var songReady = computed(():boolean => {
+            return store.state.songUrlReady
+        })
+
+        watch(changeSong,()=>{
+            let song = JSON.parse(getStroage('song_info'))
+            if(song.id == state.id){
+                // 播放的是同一首歌
+                state.audio.currentTime = state.currentTime
+            }else{
+                state.id = song.id
+                state.name = song.name
+                state.picture = song.picture
+                state.singer = song.singer
+            }
+        })
+        watch(songReady,()=>{
+            let song = JSON.parse(getStroage('song_info'))
+            state.audio.currentTime = state.currentTime = song.currentTime
+            state.audio.src = state.songUrl = song.songUrl
+            playSong()
+        })
+        
         const audioRef = ''
+        // const singerSongs =  async () => {
+        //     const res = await Song.singerTopSong('2116')
+        // }
 
-
-        const singerSongs =  async () => {
-            const res = await Song.singerTopSong('2116')
-        }
-
-        async function singer(){
-            const res = await Song.singer()
-        }
+        // async function singer(){
+        //     const res = await Song.singer()
+        // }
 
         function playPrepare (){
             if(state.playState){
@@ -58,38 +119,43 @@ export default defineComponent({
                 return
             }
             if(!state.playState && state.audio.src){
-                state.audio.play()
-                state.playState = true
+                playSong()
                 return
             }
-            playSong()
-        }   
-
-        async function playSong(){
-            const res = await Song.checkSong('66282')
-            if(res.status == 200){
-                const res_two = await Song.songUrl('66282')
-                if(res_two.status == 200){
-                    state.songUrl = res_two.data.data[0].url
-                    state.audio.src = state.songUrl
-                    state.audio.play()
-                    state.playState = true
-                }else{
-                    Toast(res.data.message);
-                }
-            }else{
-                Toast(res.data.message);
-            }
+            
+        }  
+        function playSong(){
+            state.audio.play()
+            state.playState = true
         }
-        
+
+
+
+        // async function playSong(){
+        //     const res = await Song.checkSong('66282')
+        //     if(res.status == 200){
+        //         const res_two = await Song.songUrl('66282')
+        //         if(res_two.status == 200){
+        //             state.songUrl = res_two.data.data[0].url
+        //             state.audio.src = state.songUrl
+        //             state.audio.play()
+        //             state.playState = true
+        //         }else{
+        //             Toast(res.data.message);
+        //         }
+        //     }else{
+        //         Toast(res.data.message);
+        //     }
+        // }
 
         return{
             playPrepare,
-            singerSongs,
+            // singerSongs,
             playSong,
-            singer,
+            // singer,
             state,
-            audioRef
+            audioRef,
+            sinkBottom,
         }
     },
     created(){
@@ -109,7 +175,6 @@ export default defineComponent({
     justify-content: space-between;
     align-items: center;
     position: fixed;
-    bottom: 2.13rem;
     width: 100%;
     @include font_color($font-color-white);
     justify-content: center;
@@ -149,8 +214,11 @@ export default defineComponent({
             flex: .24;
             justify-content: space-evenly;
             .play-pause{
+                    font-size: 0;
+                    border-radius: 50%;
+                    position: relative;
                 i{
-                    font-size: 1.11rem;
+                    font-size: $font_medium;
                 }
             }
             .stay-list{
@@ -161,4 +229,20 @@ export default defineComponent({
         }
     }
 }
+.sink{
+    bottom: 0;
+}
+.un_sink{
+    bottom: 2.13rem;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
 </style>

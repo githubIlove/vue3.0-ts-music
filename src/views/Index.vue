@@ -21,7 +21,7 @@ import { useRouter } from "vue-router";
 export default defineComponent({
     setup() {
       const state = reactive({
-        id: '6452',
+        id: '',
         songListArr:[]
       })
 
@@ -98,6 +98,7 @@ export default defineComponent({
       box-shadow: 0 0 4px #636363;
       border-radius: 0.213rem;
       font-size: 0;
+      padding-bottom: .426rem;
       .song_picture{
         width: 100%;
         // height: 2rem;
@@ -106,6 +107,7 @@ export default defineComponent({
       }
       .song_name{
         font-size: $font_little;
+        padding: 0 .357rem;
       }
     }
     &:after{

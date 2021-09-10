@@ -1,11 +1,5 @@
 <template>
     <div id="app">
-        <!-- 
-            动态显示底部状态
-            1. meta: { navShow: true, cname: '一级页面' }, 在路由中添加
-            2.vuex
-            3.router-view
-         -->
         <tabbar></tabbar>
         <router-view/>
     </div>
