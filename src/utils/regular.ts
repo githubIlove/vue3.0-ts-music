@@ -56,9 +56,23 @@ function addZero(num:number|string) {
 }
 
 
+// 音乐时间转换
+
+function musicTime(num:number):string {
+    // var days = parseInt(mss / (1000 * 60 * 60 * 24));
+    // var hours = parseInt((mss % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  
+    var minutes = addZero(parseInt((num % (1000 * 60 * 60)) / (1000 * 60)+''));
+    var seconds = addZero(parseInt(((num % (1000 * 60)) / 1000).toFixed()));
+
+  
+    return minutes + ":" + seconds;
+  
+}
 
 
 
 
 
-export {setStroage,getStroage,timeFilter}
+
+export {setStroage,getStroage,timeFilter,musicTime}

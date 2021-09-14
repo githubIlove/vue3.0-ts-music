@@ -30,6 +30,15 @@ export class Song{
             },
         })
     }
+
+    // 音乐详情
+    static async songDet(params: String): Promise<any> {
+        return axios.get('/song/detail',{
+            params: {
+                ids:params
+            },
+        })
+    }
    
 }
 

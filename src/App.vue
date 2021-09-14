@@ -1,5 +1,5 @@
 <template>
-    <div id="app">
+    <div id="apps">
         <tabbar></tabbar>
         <router-view/>
     </div>
@@ -23,7 +23,7 @@ export default defineComponent({
 
 <style lang="scss">
 
-#app {
+#apps {
     width: 100%;
     height: 100%;
 }

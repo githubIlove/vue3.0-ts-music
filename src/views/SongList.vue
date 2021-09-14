@@ -10,6 +10,7 @@
       </div>
     </header>
     <div class="music">
+      <div class="play_all" @click="playAll"> <i class="iconfont icon-bofang2"></i> 播放全部</div>
       <ul class="box">
         <li class="list" v-for="(item,i) in state.listDel.tracks" :key="item.id" @click="playBefore(item)">
           <div class="number">{{i+1}}</div>
@@ -35,7 +36,7 @@ import { canPlay  } from "../utils/public";
 
 
 export default defineComponent({
-    setup(props,ctx) {
+    setup() {
       const state = reactive({
         listDel: {},
       })
@@ -55,14 +56,14 @@ export default defineComponent({
         canPlay(val)
       }
 
-      // const handleLogin = async () => {
-      //   const res = await Song.getAllSong(state.id)
-      // }
+      function playAll(){
+
+      }
+
       return {
         state,
-        playBefore
-        // handleLogin,
-        // songList
+        playBefore,
+        playAll
       }
     },
 })
@@ -77,7 +78,7 @@ export default defineComponent({
     display: flex;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(to right, #a1c4fd 0%, #c2e9fb 100%);
+    @include background_color($background-color-theme1);
     .content{
       width: 90%;
       height: 5rem;
@@ -96,42 +97,54 @@ export default defineComponent({
         justify-content: space-around;
         .list_name{
           font-size: $font_large_s;
-          color: #3a3a3a;
+          @include font_color($font-color-theme2);
         }
         .create_time{
           font-size: $font_large_s;
-          color: #3a3a3a;
+          @include font_color($font-color-theme2);
         }
       }
     }
   }
   .music{
     padding: .426rem .64rem 1.7rem .64rem;
-    // @include background_color($background-color-white);
-    background: #d7e2cb;
+    @include background_color($background-color-theme2);
+    .play_all{
+      @include font_color($font-color-theme2);
+      display: flex;
+      align-items: center;
+      font-size: $font_medium_s;
+      line-height: 1.28rem;
+      padding-left: .42rem;
+      i{
+        font-size: $font_large;
+        margin-right: .21rem;
+        @include font_color($font-color-theme1);
+      }
+    }
     .list{
-      border-bottom: 1px solid #ececec;
       display: flex;
       padding: .213rem 0;
       align-items: center;
       .number{
-        flex: .15;
+        flex: .13;
         text-align: center;
-        color: black;
+        @include font_color($font-color-theme2);
         font-size: $font_little;
       }
       .song_content{
-        flex: .65;
+        flex: .67;
         display: flex;
         flex-direction: column;
-        color: black;
         padding-left: .426rem;
         .name{
           font-size: $font_little;
           margin-bottom: .213rem;
+          @include font_color($font-color-theme2);
         }
         .singer{
           font-size: $font_little_s;
+          @include font_color($font-color-theme3);
         }
       }
       .operation{

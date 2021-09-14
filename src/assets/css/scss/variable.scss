@@ -12,9 +12,22 @@
 // $font-color-themesec : #edc148;//字体次要主题颜色
 
 
-// 白天模式
-$font-color-white:rgb(65, 66, 65);
-$background-color-white:#f7f7f7;
+
+$font-color-theme1: #02D89C;
+$font-color-theme2: #FBFFFF;
+$font-color-theme3: #4C6782;
+
+
+
+$background-color-theme1:#012849;  //tab底色
+$background-color-theme2:#011631; // 背景色
+
+//用于播放的进度条
+$background-color-theme3:#02D89C; // 主色  == 背景  $font-color-theme1  
+$background-color-theme4:#4C6782; // 主色  == 背景  $font-color-theme3
+
+
+
 
 
 

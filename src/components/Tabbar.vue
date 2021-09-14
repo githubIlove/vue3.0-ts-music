@@ -2,9 +2,11 @@
     <div class="tabbar">
         <PlayMusic v-if="state.playStripStatus" :show="state.tabShowStatus"></PlayMusic>
         <footer class="footer" v-if="state.tabShowStatus">
-            <div v-for="tab in tabbars" :key="tab.id" @click="changeTab(tab)">
-                <i :class="active == tab.id?tab.active:tab.inactive " class="iconfont"></i>
-                <div>{{tab.name}}</div>
+            <div v-for="tab in tabbars" :key="tab.id" @click="changeTab(tab)" >
+                <router-link :to="tab.pathUrl" >
+                    <i :class="active == tab.id?tab.active:tab.inactive " class="iconfont"></i>
+                    <div>{{tab.name}}</div>
+                </router-link>
             </div>
         </footer>
     </div>
@@ -29,6 +31,7 @@ export default defineComponent({
                 name:'发现',
                 active:'icon-yinle',
                 inactive:'icon-yinle1',
+                pathUrl:'/',
             },
             {
                 id:1,
@@ -36,6 +39,7 @@ export default defineComponent({
                 name:'电台',
                 active:'icon-diantai2',
                 inactive:'icon-diantai',
+                pathUrl:'/broadcasting',
             },
             {
                 id:2,
@@ -43,6 +47,7 @@ export default defineComponent({
                 name:'关注',
                 active:'icon-yiguanzhu',
                 inactive:'icon-guanzhu',
+                pathUrl:'/attention',
             },
             {
                 id:3,
@@ -50,6 +55,7 @@ export default defineComponent({
                 name:'我的',
                 active:'icon-wodedangxuan',
                 inactive:'icon-wodexianxing',
+                pathUrl:'/personal',
             },
         ] 
 
@@ -84,7 +90,7 @@ export default defineComponent({
         )
       
         function changeTab(res: changeTabbar): void {
-            res.path == 'index' ? router.push(`/`) : router.push(`/${res.path}`) ;
+            // res.path == 'index' ? router.push(`/`) : router.push(`/${res.path}`) ;
             active.value =  res.id
         }
             
@@ -101,6 +107,14 @@ export default defineComponent({
 
 <style scope  lang="scss">
 @import "../assets/css/scss/mixin.scss";
+html,body{
+    @include background_color($background-color-theme2);
+}
+.tabbar{    
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
 .footer{
     display: flex;
     height: 2.13rem;
@@ -108,17 +122,24 @@ export default defineComponent({
     font-size: $font_little_s;
     justify-content: space-between;
     align-items: center;
-    position: fixed;
-    bottom: 0;
-    width: calc(100% - 2.48rem);
-    @include font_color($font-color-white);
-    @include background_color($background-color-white);
+    @include background_color($background-color-theme1);
     i{
         font-size: $font_medium_s;
     }
     div{
         text-align: center;
     }
+
+    a {
+        @include font_color($font-color-theme3);
+        &.router-link-exact-active {
+            @include font_color($font-color-theme1);
+        }
+    }
+}
+
+#nav {
+    padding: 30px;
 }
 
 </style>

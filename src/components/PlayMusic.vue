@@ -1,6 +1,6 @@
 <template>
     <div class="play-music" :class="sinkBottom?'un_sink':'sink'">
-        <div class="content">
+        <div class="content_box">
             <div class="left">
                 <div class="music-picture">
                     <img :src="state.picture" alt="">
@@ -12,13 +12,15 @@
                 </div>
             </div>
             <div class="right">
-                <div class="play-pause">
-                    <!-- <div class="circle-bar-left"></div>
-                    <div class="circle-bar-right"></div>
-                    <div class="mask">
-                        <span class="percent"></span>
-                    </div> -->
-                    <i :class="!state.playState?'icon-bofang1':'icon-zanting_huaban'" class="iconfont " @click="playPrepare"></i>
+                <div class="play-pause ">
+                    <div class="content1">
+                        <div class="circle">
+                            <div class="item">
+                                <circle-progress :rate="state.progress"></circle-progress>
+                            </div>
+                        </div>
+                    </div>
+                    <i :class="!state.playState?'icon-bofang1':'icon-zanting1'" class="iconfont " @click="playPrepare"></i>
                 </div>
                 <div class="stay-list">
                     <i class="iconfont icon-bofangliebiao"></i>
@@ -31,16 +33,20 @@
 <script lang="ts">
 import { defineComponent,ref,reactive, watch,computed} from 'vue'
 
-import { Song } from '../api/interface/playMusic'
-import { Toast } from 'vant'
+// import { Song } from '../api/interface/playMusic'
+// import { Toast } from 'vant'
 import { useStore } from 'vuex'
-import { canPlay  } from "../utils/public";
-import { setStroage,getStroage } from '../utils/regular'
+import { songDetails  } from "../utils/public";
+import { setStroage,getStroage,musicTime } from '../utils/regular'
 // import {playMusicData} from '../typings/type'
+import CircleProgress from '../components/CircleProgress.vue'
 
 export default defineComponent({
     props:{
         show:Boolean
+    },
+    components: {
+        CircleProgress
     },
     setup(props,ctx) {
         const state = reactive({
@@ -53,6 +59,7 @@ export default defineComponent({
             playState:false,
             audio:new Audio(),
             SongUndefined:true,//当前播放条是否有音乐
+            progress:0
         })
 
         var songCache = getStroage('song_info')
@@ -100,8 +107,27 @@ export default defineComponent({
             let song = JSON.parse(getStroage('song_info'))
             state.audio.currentTime = state.currentTime = song.currentTime
             state.audio.src = state.songUrl = song.songUrl
+            getSongDel(song.id)
             playSong()
         })
+
+        async function getSongDel(id:string){
+            let songInfo = await songDetails(id)
+            let time = songInfo.songs[0].dt
+            let allSeconds = parseInt((time/1000).toFixed())
+            // console.log(musicTime(time))
+            progress(allSeconds)
+        }
+        function progress(time:number){
+            let timer = setInterval(()=>{
+                let num = state.audio.currentTime
+                // num++
+                state.progress = Number((state.audio.currentTime/time).toFixed(3))
+                if(num >= time){
+                    clearInterval(timer)
+                }
+            },1000)
+        }
         
         const audioRef = ''
         // const singerSongs =  async () => {
@@ -112,7 +138,7 @@ export default defineComponent({
         //     const res = await Song.singer()
         // }
 
-        function playPrepare (){
+        function playPrepare (){    
             if(state.playState){
                 state.audio.pause()
                 state.playState = false
@@ -176,12 +202,13 @@ export default defineComponent({
     align-items: center;
     position: fixed;
     width: 100%;
-    @include font_color($font-color-white);
+    @include font_color($font-color-theme1);
     justify-content: center;
-    // @include background_color($background-color-white);
-    .content{
-        background: linear-gradient(to right, #a8edea 0%, #fed6e3 100%);
+    // @include background_color($background-color-theme1);
+    .content_box{
+        // background: linear-gradient(to right, #a8edea 0%, #fed6e3 100%);
         // background: linear-gradient(to right, #fa709a 0%, #fee140 100%);
+        @include background_color($background-color-theme1);
         height: 100%;
         width: calc(100% - 1.2rem);
         border-radius:.21rem .85rem .85rem .21rem;
@@ -218,12 +245,24 @@ export default defineComponent({
                     border-radius: 50%;
                     position: relative;
                 i{
+                    
+                    position: absolute;
+                    z-index: 2;
+                    top: .26rem;
+                    left: .298rem;
+                    @include font_color($font-color-theme1);
+                }
+                .icon-bofang1{
                     font-size: $font_medium;
+                }
+                .icon-zanting1{
+                    font-size: $font_medium_s;
                 }
             }
             .stay-list{
                 i{
                     font-size: .938rem;
+                    @include font_color($font-color-theme1);
                 }
             }
         }
@@ -243,6 +282,20 @@ export default defineComponent({
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+}
+
+.content1 {
+    margin: 0 auto;
+    display: block;
+    width: 1.28rem;
+    .circle {
+      width: 1.28rem;
+      .item {
+      display: block;
+      width: 1.28rem;
+      height: 1.28rem;
+    }
+    }
 }
 
 </style>

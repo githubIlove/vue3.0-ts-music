@@ -35,7 +35,16 @@ async function getSongUrl(val:string): Promise<void>{
     }else{
         Toast(res.data.message);
     }
-
 }
 
-export {canPlay}
+async function songDetails(val:string): Promise<any>{
+    const res = await Song.songDet(val)
+    if(res.status == 200){
+        return res.data
+    }else{
+        Toast(res.data.message);
+    }
+}
+
+
+export {canPlay,songDetails}

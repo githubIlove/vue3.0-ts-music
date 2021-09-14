@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 2789772 */
-  src: url('//at.alicdn.com/t/font_2789772_6k6lf1lsag.woff2?t=1631267239704') format('woff2'),
-       url('//at.alicdn.com/t/font_2789772_6k6lf1lsag.woff?t=1631267239704') format('woff'),
-       url('//at.alicdn.com/t/font_2789772_6k6lf1lsag.ttf?t=1631267239704') format('truetype');
+  src: url('//at.alicdn.com/t/font_2789772_ckt4bgbhgde.woff2?t=1631528582633') format('woff2'),
+       url('//at.alicdn.com/t/font_2789772_ckt4bgbhgde.woff?t=1631528582633') format('woff'),
+       url('//at.alicdn.com/t/font_2789772_ckt4bgbhgde.ttf?t=1631528582633') format('truetype');
 }
 
 .iconfont {
@@ -13,12 +13,16 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-bofang1:before {
-  content: "\e61c";
+.icon-bofang2:before {
+  content: "\e6d1";
 }
 
-.icon-zanting_huaban:before {
-  content: "\e637";
+.icon-zanting1:before {
+  content: "\e60e";
+}
+
+.icon-bofang1:before {
+  content: "\e61c";
 }
 
 .icon-bofangliebiao:before {

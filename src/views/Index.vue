@@ -84,8 +84,12 @@ export default defineComponent({
 @import "../assets/css/scss/mixin.scss";
 #page{
   padding:.64rem;
+  height: 100%;
+  @include background_color($background-color-theme2);
   h2{
     font-size: $font_large;
+    @include font_color($font-color-theme2);
+    margin-bottom: .64rem;
   }
   .ul{
     display: flex;
@@ -98,16 +102,17 @@ export default defineComponent({
       box-shadow: 0 0 4px #636363;
       border-radius: 0.213rem;
       font-size: 0;
-      padding-bottom: .426rem;
+      padding-bottom: .34rem;
       .song_picture{
         width: 100%;
         // height: 2rem;
-        margin-bottom: .426rem;
+        margin-bottom: .34rem;
         border-radius: .213rem;
       }
       .song_name{
         font-size: $font_little;
         padding: 0 .357rem;
+        @include font_color($font-color-theme2);
       }
     }
     &:after{
