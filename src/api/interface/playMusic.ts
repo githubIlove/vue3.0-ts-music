@@ -8,7 +8,7 @@ export class Song{
                 id:params
             },
         })
-    }
+    } 
 
     //歌手
     static async singer(params?: String): Promise<any> {
